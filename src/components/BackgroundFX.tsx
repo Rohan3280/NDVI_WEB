@@ -12,7 +12,9 @@ export default function BackgroundFX() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    const particles: any[] = Array(120).fill(0).map(() => ({
+    type Particle = { x: number; y: number; r: number; dx: number; dy: number };
+    const particles: Particle[] = Array(120).fill(0).map(() => ({
+    
       x: Math.random() * w,
       y: Math.random() * h,
       r: Math.random() * 2 + 1,
