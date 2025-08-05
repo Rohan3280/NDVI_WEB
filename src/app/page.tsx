@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
 
 // INSANE 3D Background with Three.js-like effects
 const Epic3DBackground = () => {
@@ -379,7 +380,7 @@ const APKModelTransformer = () => {
   );
 };
 
-// Processing Pipeline
+// Processing Pipeline with Next.js Image optimization
 const ProcessingPipeline = () => {
   const steps = [
     {
@@ -439,11 +440,16 @@ const ProcessingPipeline = () => {
               <div className="flex-1">
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                  <img 
-                    src={step.image} 
-                    alt={step.title}
-                    className="relative rounded-2xl shadow-2xl w-full max-w-2xl mx-auto transform group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-2xl mx-auto transform group-hover:scale-105 transition-transform duration-300">
+                    <Image 
+                      src={step.image}
+                      alt={step.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                      priority={index === 0}
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -482,9 +488,6 @@ const ProcessingPipeline = () => {
     </section>
   );
 };
-
-
-
 
 // Research Results with Interactive Charts
 const ResearchResults = () => {
