@@ -4,6 +4,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 
+// Define types for better TypeScript support
+interface Node {
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  speedZ: number;
+  opacity: number;
+  hue: number;
+  connections: number[];
+}
+
 // INSANE 3D Background with Three.js-like effects
 const Epic3DBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,11 +28,12 @@ const Epic3DBackground = () => {
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
     // 3D-style floating cubes and neural network nodes
-    const nodes = Array(150).fill(0).map(() => ({
+    const nodes: Node[] = Array(150).fill(0).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       z: Math.random() * 1000,
@@ -543,7 +558,7 @@ const ResearchResults = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                {results[key].title}
+                {results[key as keyof typeof results].title}
               </button>
             ))}
           </div>
@@ -601,7 +616,7 @@ const ResearchResults = () => {
                   <h4 className="text-lg font-bold text-center">{item.metric}</h4>
                   
                   <div className="grid grid-cols-3 gap-6">
-                    {['wheat', 'gram', 'nonNDVI'].map((crop, cropIndex) => (
+                    {(['wheat', 'gram', 'nonNDVI'] as const).map((crop, cropIndex) => (
                       <div key={crop} className="text-center">
                         <div className="relative mb-2">
                           <div className="w-full h-6 bg-gray-700 rounded-full overflow-hidden">
